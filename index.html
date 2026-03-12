@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETREAT 50 - 癒しのメニュー</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+Antique:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-color: #F6F5F2;
+            --accent-color: #7B8872;
+            --text-main: #3E3A37;
+            --text-sub: #75706B;
+        }
+
+        body {
+            font-family: 'Shippori Mincho', serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .font-sans {
+            font-family: 'Zen Kaku Gothic Antique', sans-serif;
+        }
+
+        /* グラスモーフィズム */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ノイズテクスチャ */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.15;
+            mix-blend-mode: multiply;
+        }
+
+        /* スクロールバー非表示 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* カテゴリボタンのアクティブ状態 */
+        .btn-active {
+            background-color: var(--accent-color) !important;
+            color: white !important;
+            border-color: var(--accent-color) !important;
+        }
+
+        /* フェードインアニメーション */
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* カードの表示・非表示アニメーション */
+        .item-card {
+            display: block;
+            opacity: 1;
+            transition: all 0.4s ease;
+        }
+
+        .item-card.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        /* 背景のオーブ */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.5;
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景装飾 -->
+    <div class="noise-overlay">
+        <svg width="100%" height="100%">
+            <filter id="noise">
+                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/>
+            </filter>
+            <rect width="100%" height="100%" filter="url(#noise)"></rect>
+        </svg>
+    </div>
+    <div class="orb bg-[#E8EAE3] w-[60vw] h-[60vw] -top-[10%] -left-[10%]"></div>
+    <div class="orb bg-[#EBE7DF] w-[70vw] h-[70vw] -bottom-[10%] -right-[10%]"></div>
+
+    <div class="relative z-10 flex flex-col min-h-screen">
+        
+        <!-- ヘッダー -->
+        <header class="py-5 px-6 md:px-12 flex justify-between items-center sticky top-0 z-40 bg-white/30 backdrop-blur-md border-b border-white/40">
+            <div class="flex items-center gap-2 text-[#5C5855]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#889682]"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+                <h1 class="text-sm md:text-base tracking-[0.2em] font-medium">RETREAT 50</h1>
+            </div>
+            <p class="text-xs font-sans tracking-widest text-[#8C8782] hidden md:block uppercase">Healing Menu for You</p>
+        </header>
+
+        <!-- ヒーロー -->
+        <section class="pt-24 pb-12 px-6 text-center fade-in">
+            <h2 class="text-3xl md:text-5xl font-medium leading-[1.6] tracking-wide text-[#3E3A37] mb-6">
+                日常の余白に、<br class="md:hidden" />深呼吸を。
+            </h2>
+            <p class="text-sm md:text-base text-[#75706B] font-sans tracking-widest leading-loose max-w-lg mx-auto">
+                思考を止め、身体を緩め、感覚を研ぎ澄ます。<br />
+                心と身体をほどく、50の小さな魔法。
+            </p>
+        </section>
+
+        <!-- ナビゲーション -->
+        <nav class="w-full max-w-5xl mx-auto px-4 md:px-8 mb-12 sticky top-[68px] z-30 py-4">
+            <div id="category-container" class="flex gap-3 overflow-x-auto hide-scrollbar py-2 px-2 snap-x">
+                <!-- カテゴリボタンがJSで生成されます -->
+            </div>
+        </nav>
+
+        <!-- コンテンツ -->
+        <main class="flex-grow w-full max-w-7xl mx-auto px-6 md:px-10 pb-32">
+            <div id="category-info" class="text-center mb-12 fade-in">
+                <h3 id="current-cat-name" class="text-lg md:text-xl font-medium text-[#5C5855] tracking-widest mb-2">【 すべて 】</h3>
+                <p id="current-cat-desc" class="text-sm text-[#8C8782] font-sans tracking-wider">50のメニュー</p>
+            </div>
+
+            <div id="grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- カードがJSで生成されます -->
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer class="py-10 text-center text-[#9E9A95] font-sans text-xs tracking-[0.2em] border-t border-black/5 relative z-10">
+            <p>TAKE A DEEP BREATH.</p>
+        </footer>
+    </div>
+
+    <script>
+        const categories = [
+            { id: 'all', name: 'すべて', desc: '50のメニュー' },
+            { id: 'sei', name: '静', desc: '思考を止めて心をフラットにする' },
+            { id: 'on', name: '温・触', desc: '物理的に身体を緩める' },
+            { id: 'dou', name: '動', desc: 'こわばりを解き、循環を良くする' },
+            { id: 'kou', name: '香・味', desc: '感覚を研ぎ澄ましてリフレッシュ' },
+            { id: 'ri', name: '離', desc: '外部のノイズを完全に遮断する' },
+            { id: 'raku', name: '楽', desc: '感性を満たし、心を遊ばせる' }
+        ];
+
+        const items = [
+            { id: 1, category: 'sei', title: '3分間マインドフルネス', desc: '呼吸の出入りだけに意識を向ける。' },
+            { id: 2, category: 'sei', title: 'ジャーナリング', desc: '頭にあることをすべて紙に書き出す。' },
+            { id: 3, category: 'sei', title: 'キャンドルの炎を見つめる', desc: '「1/fゆらぎ」で脳をリラックスさせる。' },
+            { id: 4, category: 'sei', title: '感謝のリストアップ', desc: '今日あった良かったことを3つだけ書く。' },
+            { id: 5, category: 'sei', title: '自然音を聴く', desc: '雨、波、小鳥のさえずりなどの環境音に浸る。' },
+            { id: 6, category: 'sei', title: '詩集や写真集をめくる', desc: '文字を追わず、視覚的な刺激で癒やす。' },
+            { id: 7, category: 'sei', title: '「何もしない」時間を5分作る', desc: 'スマホも本も置かず、ただ座る。' },
+            { id: 8, category: 'sei', title: 'お寺や神社の画像を眺める', desc: '厳かな空気感を視覚から取り入れる。' },
+            { id: 9, category: 'sei', title: '雲の動きを眺める', desc: 'ベランダや窓から、ただ空を観察する。' },
+            { id: 10, category: 'sei', title: '明日の準備を完璧にする', desc: '迷いをなくして心を落ち着かせる。' },
+            { id: 11, category: 'on', title: 'ホットアイマスク', desc: '目元の筋肉を緩め、副交感神経を優位にする。' },
+            { id: 12, category: 'on', title: '足湯', desc: '40度前後のお湯に10分浸かり、全身の血行を促す。' },
+            { id: 13, category: 'on', title: '首の後ろを温める', desc: '蒸しタオルで自律神経のスイッチを切り替える。' },
+            { id: 14, category: 'on', title: '白湯をゆっくり飲む', desc: '内臓からじんわり温める。' },
+            { id: 15, category: 'on', title: '湯船で深呼吸', desc: 'お風呂の蒸気を吸い込みながら深く呼吸する。' },
+            { id: 16, category: 'on', title: 'セルフハンドマッサージ', desc: '好きなクリームで指先までケアする。' },
+            { id: 17, category: 'on', title: '耳たぶマッサージ', desc: '耳全体を優しく揉みほぐして血流を良くする。' },
+            { id: 18, category: 'on', title: 'テニスボールで背中をゴロゴロ', desc: '肩甲骨周りのコリを解く。' },
+            { id: 19, category: 'on', title: 'シルクやカシミヤに触れる', desc: '肌触りが極上のものに包まれる。' },
+            { id: 20, category: 'on', title: '重めのブランケットを掛ける', desc: '適度な圧迫感で安心感を得る。' },
+            { id: 21, category: 'dou', title: '猫のポーズ', desc: '背中を丸めたり反らしたりして脊柱をほぐす。' },
+            { id: 22, category: 'dou', title: '足首回し', desc: '足元から全身のポンプ機能を活性化させる。' },
+            { id: 23, category: 'dou', title: '4-8呼吸法', desc: '4秒吸って8秒吐く、を5回繰り返す。' },
+            { id: 24, category: 'dou', title: '肩の上げ下げ', desc: 'ギュッと肩をすくめて、一気に脱力する。' },
+            { id: 25, category: 'dou', title: '青竹踏み（またはボール）', desc: '足裏のツボを刺激して老廃物を流す。' },
+            { id: 26, category: 'dou', title: 'スローテンポな散歩', desc: '目的地を決めず、歩く感触だけを味わう。' },
+            { id: 27, category: 'dou', title: '顔の筋肉を動かす', desc: '大きく「あ・い・う・え・お」と口を動かす。' },
+            { id: 28, category: 'kou', title: 'アロマを焚く', desc: '直感で「いい匂い」と思う香りを選ぶ。' },
+            { id: 29, category: 'kou', title: 'コーヒーの豆を挽く', desc: '香りを楽しむプロセス自体を癒やしにする。' },
+            { id: 30, category: 'kou', title: '一粒の高級チョコを味わう', desc: '舌の上で溶ける感覚に全集中する。' },
+            { id: 31, category: 'kou', title: '季節のフルーツを食べる', desc: 'みずみずしさと自然の甘みを味わう。' },
+            { id: 32, category: 'kou', title: 'ハーブティー', desc: 'カモミールやルイボスでリラックスする。' },
+            { id: 33, category: 'kou', title: '香水を空中に吹きかける', desc: '香りのミストの中をくぐる。' },
+            { id: 34, category: 'kou', title: 'スパイスの香りを嗅ぐ', desc: 'シナモンやバニラなど、深い香りに浸る。' },
+            { id: 35, category: 'ri', title: 'スマホを別室に置く', desc: '1時間だけデジタルから完全に離れる。' },
+            { id: 36, category: 'ri', title: '照明を暖色系にする', desc: '明るさを落とし、夜のリズムを作る。' },
+            { id: 37, category: 'ri', title: '耳栓（イヤープラグ）をする', desc: '意図的に「無音」の世界を作る。' },
+            { id: 38, category: 'ri', title: 'SNSの通知を切る', desc: '他人の情報が入ってこない状態にする。' },
+            { id: 39, category: 'ri', title: '時計を見ない', desc: '時間に追われる感覚をリセットする。' },
+            { id: 40, category: 'ri', title: 'おやすみモードを活用', desc: '連絡から解放される時間を確保する。' },
+            { id: 41, category: 'raku', title: 'インスト音楽を聴く', desc: '歌詞のない、ゆったりした曲を選ぶ。' },
+            { id: 42, category: 'raku', title: '昔の旅の写真を見返す', desc: '楽しかった記憶を追体験する。' },
+            { id: 43, category: 'raku', title: '大人の塗り絵', desc: '単純作業で「ゾーン」に入る。' },
+            { id: 44, category: 'raku', title: '動物の動画を見る', desc: '無条件に可愛いものに癒やされる。' },
+            { id: 45, category: 'raku', title: '空想旅行', desc: '地図やガイドブックで行きたい場所を眺める。' },
+            { id: 46, category: 'raku', title: '好きな映画のワンシーン', desc: '何度も見た安心感のあるシーンを見る。' },
+            { id: 47, category: 'raku', title: 'お気に入りの靴を磨く', desc: '綺麗になっていく様子を静かに楽しむ。' },
+            { id: 48, category: 'raku', title: '花を1輪飾る', desc: '植物の生命力を近くに感じる。' },
+            { id: 49, category: 'raku', title: '景色を眺める', desc: '宇宙の広大さに思いを馳せる。' },
+            { id: 50, category: 'raku', title: '理想の1日を書き出す', desc: 'ワクワクする未来を想像する。' }
+        ];
+
+        let currentFilter = 'all';
+
+        function init() {
+            renderCategories();
+            renderItems();
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('category-container');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setFilter('${cat.id}')" id="btn-${cat.id}" 
+                        class="category-btn flex items-center gap-2 px-5 py-3 rounded-full whitespace-nowrap transition-all duration-300 snap-center font-sans text-sm tracking-wider shadow-sm border glass-panel text-[#6E6965] hover:bg-white/70 border-white ${cat.id === 'all' ? 'btn-active' : ''}">
+                    ${cat.name}
+                </button>
+            `).join('');
+        }
+
+        function renderItems() {
+            const container = document.getElementById('grid-container');
+            container.innerHTML = items.map(item => {
+                const cat = categories.find(c => c.id === item.category);
+                return `
+                <div class="item-card glass-panel group p-7 rounded-2xl flex flex-col gap-5 relative overflow-hidden cursor-default" data-category="${item.category}">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    <div class="flex justify-between items-start relative z-10">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-xs text-[#9E9A95] font-sans tracking-[0.15em]">No.${item.id.toString().padStart(2, '0')}</span>
+                            <span class="category-tag text-[10px] text-[#7B8872] font-sans tracking-widest px-2 py-0.5 rounded-full border border-[#7B8872]/30 w-fit ${currentFilter !== 'all' ? 'hidden' : ''}">
+                                ${cat.name}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="relative z-10 mt-2">
+                        <h4 class="text-[17px] font-medium mb-3 leading-relaxed text-[#4A4643] group-hover:text-[#2A2725] transition-colors duration-300">
+                            ${item.title}
+                        </h4>
+                        <p class="text-sm text-[#75706B] font-sans leading-[1.8] tracking-wide">
+                            ${item.desc}
+                        </p>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        window.setFilter = function(id) {
+            currentFilter = id;
+            
+            // UI更新: ボタンの状態
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('btn-active'));
+            document.getElementById(`btn-${id}`).classList.add('btn-active');
+
+            // UI更新: 説明文
+            const cat = categories.find(c => c.id === id);
+            document.getElementById('current-cat-name').innerText = `【 ${cat.name} 】`;
+            document.getElementById('current-cat-desc').innerText = cat.desc;
+
+            // カードのフィルタリング
+            const cards = document.querySelectorAll('.item-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                const tag = card.querySelector('.category-tag');
+                
+                if (id === 'all' || cardCat === id) {
+                    card.classList.remove('hidden');
+                    // 「すべて」表示のときだけタグを出す
+                    if(id === 'all') tag.classList.remove('hidden');
+                    else tag.classList.add('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            // ページトップへスムーズに移動（モバイル用）
+            if(window.innerWidth < 768) {
+                window.scrollTo({ top: 400, behavior: 'smooth' });
+            }
+        };
+
+        window.onload = init;
+    </script>
+</body>
+</html>
